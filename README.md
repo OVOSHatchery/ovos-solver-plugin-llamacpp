@@ -13,13 +13,11 @@ Give OpenVoiceOS some sass with [LlamaCPP](https://github.com/ggerganov/llama.cp
 Spoken answers api
 
 ```python
-from ovos_solver_llamacpp import LlamaCPPSolver, AlpacaSolver
+from ovos_solver_llamacpp import LlamaCPPSolver
 
 LLAMA_MODEL_FILE = "./models/ggml-model-q4_0.bin"
-ALPACA_MODEL_FILE = "/./models/ggml-alpaca-7b-q4.bin"
 
 bot = LlamaCPPSolver({"model": LLAMA_MODEL_FILE})
-#bot = AlpacaSolver({"model": ALPACA_MODEL_FILE})
 
 sentence = bot.spoken_answer("Qual é o teu animal favorito?", {"lang": "pt-pt"})
 # Meus animais favoritos são cães, gatos e tartarugas!

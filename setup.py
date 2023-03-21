@@ -46,7 +46,6 @@ def get_version():
     return version
 
 
-# TODO - LLama + Alpaca
 PLUGIN_ENTRY_POINT = 'ovos-solver-llamacpp-plugin=ovos_solver_llamacpp:LlamaCPPSolver'
 
 setup(
