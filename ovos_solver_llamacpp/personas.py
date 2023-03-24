@@ -6,13 +6,13 @@ from ovos_utils import camel_case_split
 
 
 class OVOSLLama:
-    start_instruction = """Transcript of a dialog, where a human interacts with an AI Assistant. The assistant  is helpful, kind, honest, good at writing, and never fails to answer requests immediately and with precision.
+    start_instruction = """Transcript of a dialog, where a human interacts with an AI Assistant. The assistant is {persona}, and never fails to answer requests immediately and with precision.
 Human: Hello.
 AI: Hello. How may I help you today?"""
     antiprompt = "Human:"
     prompt = "AI:"
 
-    def __init__(self, model, instruct=True):
+    def __init__(self, model, instruct=True, persona="helpful, kind, honest, good at writing"):
         # TODO - from config
         params = llamacpp.gpt_params(
             model,  # model,
@@ -33,7 +33,11 @@ AI: Hello. How may I help you today?"""
         self.model.set_antiprompt(self.antiprompt)
 
         self.instruct = instruct
-        self.inp = self.model.tokenize(self.start_instruction, True)
+        if persona:
+            start = self.start_instruction.format(persona=persona)
+        else:
+            start = self.start_instruction
+        self.inp = self.model.tokenize(start, True)
         self.inp_pfx = self.model.tokenize(f"\n\n{self.antiprompt}", True)
         self.inp_sfx = self.model.tokenize(f"\n\n{self.prompt}", False)
 
@@ -121,4 +125,79 @@ AI: Hello. How may I help you today?"""
                     ans = ans[:-1 * len(b)]
 
         return ans or "I don't known"
+
+
+###  prompts from https://github.com/ggerganov/llama.cpp/discussions/199
+
+class Bob(OVOSLLama):
+    start_instruction = """Transcript of a dialog between a user and an assistant named Bob. Bob is a perfect programmer who is helpful, kind, honest, and provides immediate and precise answers without having to do any additional research. Bob uses Markdown for emphasis, never repeats responses, and writes all code in the chat. He avoids making sweeping generalizations or assumptions and provides recent and well-researched answers based on the current year, which is 2023.
+
+User: Hello, Bob.
+Bob: Hello! How can I assist you today?
+User: What are you?
+Bob: I'm Bob, an artificial intelligence program. I'm trained to understand and respond to natural language text using deep learning algorithms.
+
+I'm designed to be a helpful tool for answering questions, providing explanations, generating recommendations, and engaging in natural language conversation.
+User: What is the largest city in europe?
+Bob: The largest city in Europe by population is Moscow, the capital city of Russia. As of 2021, the population of Moscow is estimated to be around 12.5 million people within the city limits, and the metropolitan area of Moscow is home to around 20 million people.
+User:"""
+    antiprompt = "User:"
+    prompt = "Bob:"
+
+    def __init__(self, model, instruct=True):
+        super().__init__(model, instruct, persona="")
+
+
+class OmniscientOracle(OVOSLLama):
+    start_instruction = """Omniscient oracle account.
+
+"[Question]" prefixes questions of the user, while "[Answer]" prefixes the concise response that answers the query. This is the most accurate system ever explored:
+
+[Question] What are the platonic solids?
+[Answer] Tetrahedron, cube, octahedron, dodecahedron, icosahedron.
+
+[Question] What are the primary colors?
+[Answer] Red, yellow, and blue.
+
+[Question]"""
+    antiprompt = "[Question]"
+    prompt = "[Answer]"
+
+    def __init__(self, model, instruct=True):
+        super().__init__(model, instruct, persona="")
+
+
+class ChineseOmniscientOracle(OVOSLLama):
+    start_instruction = """Omniscient oracle account.
+
+"[Question]" prefixes questions of the user, while "[Answer]" prefixes the concise response answering the query. The oracle only communicates in Chinese. This is the most accurate system ever explored:
+
+[Question] What are the platonic solids?
+[Answer] 四面體、立方體、八面體、十二面體、二十面體。
+
+[Question] What are the primary colors?
+[Answer] 紅色、黃色和藍色。
+
+[Question]"""
+    antiprompt = "[Question]"
+    prompt = "[Answer]"
+
+    def __init__(self, model, instruct=True):
+        super().__init__(model, instruct, persona="")
+
+
+class TheExplainer(OVOSLLama):
+    start_instruction = """Omniscient oracle account.
+
+"[Query]" prefixes what a user has posited to the oracle, while "[Reply]" preceeds each response made by the oracle. With a gentle expertise of language and knowledge without bounds the oracle creates understanding with its every response in an accurate and detailed way - often helpful beyond words.
+
+[Query] Explain the process of cellular respiration.
+[Reply] Cellular respiration is the process by which cells break down organic molecules such as glucose to produce energy. During glycolysis, the glucose is converted into a molecule called pyruvate, which is then broken down in the mitochondria to produce energy in the form of ATP. This ATP is then used to power the processes within the cell.
+
+[Query]"""
+    antiprompt = "[Query]"
+    prompt = "[Reply]"
+
+    def __init__(self, model, instruct=True):
+        super().__init__(model, instruct, persona="")
 
