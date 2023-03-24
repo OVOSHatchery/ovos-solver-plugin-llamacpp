@@ -17,7 +17,10 @@ from ovos_solver_llamacpp import LlamaCPPSolver
 
 LLAMA_MODEL_FILE = "./models/ggml-model-q4_0.bin"
 
-bot = LlamaCPPSolver({"model": LLAMA_MODEL_FILE})
+# persona = "omniscient oracle" # hardcoded personas, "explainer"|"bob"|"omniscient oracle"
+persona = "helpful, kind, honest, good at writing"  # description of assistant
+bot = LlamaCPPSolver({"model": LLAMA_MODEL_FILE, 
+                      "persona": persona})
 
 sentence = bot.spoken_answer("Qual é o teu animal favorito?", {"lang": "pt-pt"})
 # Meus animais favoritos são cães, gatos e tartarugas!
