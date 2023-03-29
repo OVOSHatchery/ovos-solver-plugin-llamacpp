@@ -2,6 +2,8 @@
  
 Give OpenVoiceOS some sass with [LLaMA](https://arxiv.org/abs/2302.13971) model in [pure C/C++](https://github.com/ggerganov/llama.cpp)
 
+powered by [llamacpp-python](https://github.com/thomasantony/llamacpp-python)
+
 ## Examples 
 * "What is best in life?"
 * "Do you like dogs"
