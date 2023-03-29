@@ -1,4 +1,4 @@
-# <img src='https://camo.githubusercontent.com/57d5fd32c5b51e73fce9077a45f155db3edecd5dfe31d272d73569cb23ef779c/68747470733a2f2f692e696d6775722e636f6d2f6c41645a6a376d2e6a706567' card_color='#40DBB0' width='50' height='50' style='vertical-align:bottom'/> LlamaCPP Persona
+# <img src='https://camo.githubusercontent.com/0941c760a0702f80cbb8e16433afa1d0a76edfb82b6bae35271cf86a8c02e062/68747470733a2f2f692e6962622e636f2f6859666e31547a2f6c6c616d61637070336c6f772e6a7067' card_color='#40DBB0' width='50' height='50' style='vertical-align:bottom'/> LlamaCPP Persona
  
 Give OpenVoiceOS some sass with [LLaMA](https://arxiv.org/abs/2302.13971) model in [pure C/C++](https://github.com/ggerganov/llama.cpp)
 
